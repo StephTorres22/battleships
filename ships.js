@@ -1,4 +1,4 @@
-export function Ship(length, noHit, sunk = false) {
+export function Ship(length, noHit = 0, sunk = false) {
   return {
     length,
     noHit,
