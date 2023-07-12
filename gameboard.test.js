@@ -1,7 +1,5 @@
-
 import { GameBoard } from "./gameboard";
 import { Ship } from "./ships";
-
 
 test("Place ship, at specific co-ord", () => {
   let board = new GameBoard(8);
@@ -62,4 +60,24 @@ test("Receive attack: missed", () => {
   let actual = board.receiveAttack(6, 5);
 
   expect(actual).toEqual("You missed!");
+});
+
+test("How many ships?", () => {
+  let board = new GameBoard(8);
+  let patrol = new Ship(2);
+
+  board.placeShip(patrol, 1, 1);
+  let actual = board.numberOfShips;
+  expect(actual).toBe(1);
+});
+
+test("How many ships?", () => {
+  let board = new GameBoard(8);
+  let patrol = new Ship(2);
+  let cruiser = new Ship(3, false);
+
+  board.placeShip(patrol, 1, 1);
+  board.placeShip(cruiser, 5, 8);
+  let actual = board.numberOfShips;
+  expect(actual).toBe(2);
 });

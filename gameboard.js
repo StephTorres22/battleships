@@ -30,6 +30,7 @@ import { log } from "console";
 export class GameBoard {
   constructor(size) {
     this.board = this.createBoard(size);
+    this.numberOfShips = 0;
   }
 
   createBoard(size) {
@@ -46,6 +47,7 @@ export class GameBoard {
 
   placeShip(ship, x, y) {
     let size = this.board.length;
+    this.numberOfShips += 1;
     /* if (x > size || y > size || x < size || y < size) {
       alert(
         "These co-ordinates are not within the board, please choose new co-ordinates"
@@ -67,7 +69,13 @@ export class GameBoard {
     let target = this.board[x][y];
     if (target instanceof Ship) {
       target.hit();
-    } else return "You missed!";
+      if (target.isSunk) {
+        this.numberOfShips -= 1;
+      }
+    } else {
+      target = false;
+      return "You missed!";
+    }
   }
 }
 
