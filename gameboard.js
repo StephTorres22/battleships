@@ -2,7 +2,9 @@
 
 recieve an attack, determine whether a hit or a miss*/
 
+import { escape } from "querystring";
 import { Ship } from "./ships.js";
+import { log } from "console";
 
 /* export function GameBoard() {
   //this might be doodie
@@ -42,25 +44,37 @@ export class GameBoard {
     return board;
   }
 
-  placeShip(length, x, y) {
+  placeShip(ship, x, y) {
     let size = this.board.length;
     /* if (x > size || y > size || x < size || y < size) {
       alert(
         "These co-ordinates are not within the board, please choose new co-ordinates"
       );
       return; 
+      
     }*/
-    this.board[x][y] = Ship(length);
+    for (let i = 0; i < ship.length; i++) {
+      if (ship.horizontal) {
+        this.board[x + i][y] = ship;
+      } else {
+        this.board[x][y + i] = ship;
+      }
+    }
   }
 
   //WRITE YOUR BLOODY TESTS FIRST!!!
-  recieveAttack(x, y) {
-    //if()
+  receiveAttack(x, y) {
+    let target = this.board[x][y];
+    if (target instanceof Ship) {
+      target.hit();
+    } else return "You missed!";
   }
 }
-/* 
-let gameboard = new GameBoard(8);
-//console.log(board);
-gameboard.placeShip(1, 2, 3);
-console.log(gameboard.board[2][3]);
+
+/* let gameboard = new GameBoard(8);
+let patrol = new Ship(2)
+gameboard.placeShip(patrol, 2, 3);
+//console.log(gameboard.board[2][3]);
+console.log(gameboard.board); 
+patrol.hit();
 console.log(gameboard.board); */
