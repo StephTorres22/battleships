@@ -62,6 +62,8 @@ test("Receive attack: missed", () => {
   expect(actual).toEqual("You missed!");
 });
 
+/* 
+NO LONGER VALID
 test("How many ships?", () => {
   let board = new GameBoard(8);
   let patrol = new Ship(2);
@@ -69,8 +71,10 @@ test("How many ships?", () => {
   board.placeShip(patrol, 1, 1);
   let actual = board.numberOfShips;
   expect(actual).toBe(1);
-});
+}); */
 
+/*
+NO LONGER VALID
 test("How many ships?", () => {
   let board = new GameBoard(8);
   let patrol = new Ship(2);
@@ -80,4 +84,46 @@ test("How many ships?", () => {
   board.placeShip(cruiser, 5, 8);
   let actual = board.numberOfShips;
   expect(actual).toBe(2);
+}); */
+
+test("Keep track of attacks", () => {
+  let board = new GameBoard(8);
+
+  board.receiveAttack(1, 1);
+  board.receiveAttack(3, 4);
+  let actual = board.attacksReceived;
+  expect(actual).toStrictEqual([
+    [1, 1],
+    [3, 4],
+  ]);
+});
+
+test("All ships sunk", () => {
+  let board = new GameBoard(8);
+  let patrol = new Ship(2);
+  board.placeShip(patrol, 2, 1)
+  let actual = board.allShipsSunk();
+
+  expect(actual).toEqual(false);
+});
+
+test("All ships sunk: After attack, ship sunk", () => {
+  let board = new GameBoard(8);
+  let patrol = new Ship(2);
+
+  board.placeShip(patrol, 2, 2);
+  board.receiveAttack(2, 2);
+  board.receiveAttack(3, 2);
+  let actual = board.allShipsSunk();
+  expect(actual).toEqual(true);
+});
+
+test("All ships sunk: After attack, ship not sunk", () => {
+  let board = new GameBoard(8);
+  let patrol = new Ship(2);
+
+  board.placeShip(patrol, 2, 1);
+  board.receiveAttack(2, 1);
+  let actual = board.allShipsSunk();
+  expect(actual).toEqual(false);
 });

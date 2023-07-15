@@ -2,38 +2,16 @@
 
 recieve an attack, determine whether a hit or a miss*/
 
-import { escape } from "querystring";
 import { Ship } from "./ships.js";
-import { log } from "console";
-
-/* export function GameBoard() {
-  //this might be doodie
-
-  return {
-    createBoard(size) {
-      let board = new Array(size);
-
-      for (let i = 0; i < size; i++) {
-        board[i] = new Array(size);
-        for (let j = 0; j < size; j++) {
-          board[i][j] = [i, j];
-        }
-      }
-      return board
-    },
-    placeShip(length, x, y) {
-      this.createBoard()[x][y] = Ship(length);
-    },
-  };
-} */
 
 export class GameBoard {
   constructor(size) {
-    this.board = this.createBoard(size);
-    this.numberOfShips = 0;
+    this.board = this.#createBoard(size);
+    this.shipStore = [];
+    this.attacksReceived = [];
   }
 
-  createBoard(size) {
+  #createBoard(size) {
     let board = new Array(size);
 
     for (let i = 0; i < size; i++) {
@@ -47,7 +25,7 @@ export class GameBoard {
 
   placeShip(ship, x, y) {
     let size = this.board.length;
-    this.numberOfShips += 1;
+    this.shipStore.push(ship);
     /* if (x > size || y > size || x < size || y < size) {
       alert(
         "These co-ordinates are not within the board, please choose new co-ordinates"
@@ -67,15 +45,21 @@ export class GameBoard {
   //WRITE YOUR BLOODY TESTS FIRST!!!
   receiveAttack(x, y) {
     let target = this.board[x][y];
+
+    //keeps track of what attacks have been launched and where.
+    this.attacksReceived.push([x, y]);
     if (target instanceof Ship) {
       target.hit();
-      if (target.isSunk) {
-        this.numberOfShips -= 1;
-      }
+      this.allShipsSunk()
     } else {
+      //might not need this false statement
       target = false;
       return "You missed!";
     }
+  }
+
+  allShipsSunk() {
+    return this.shipStore.every((ship) => ship.isSunk())
   }
 }
 
