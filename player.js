@@ -7,13 +7,15 @@ a turn in which they are able to launch an attack on the opponents gameboard.*/
 import { GameBoard } from "./gameboard";
 //import { Ship } from "./ships";
 
-class Player {
-  constructor(size, turn) {
-    this.board = new GameBoard(size);
+export class Player {
+  constructor(board, turn) {
+    this.board = board;
     this.turn = turn;
   }
 
-  attack(){
-    
+  
+
+  attack(x, y, oppenent) {
+    oppenent.board.receiveAttack(x, y);
   }
 }
